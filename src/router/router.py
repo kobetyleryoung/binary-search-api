@@ -1,53 +1,44 @@
 from fastapi import APIRouter, HTTPException
 import logging
-import json
+from pydantic import BaseModel
 
+class SearchRequest(BaseModel):
+    '''Request body for binary search'''
+    list: list[int]
+    num: int
 
-from src.schemas.schemas_api import Response, Request 
-
-
-class BinarySearch: 
+class BinarySearch:
+    '''Binary search class that contains the router and the binary search function''' 
     router: APIRouter = APIRouter()
     logger: logging.Logger
 
     def __init__(self):
-        self.logger = logging.getLogger('debug')
+        '''Initializes the logger and adds the binary search route to the router'''
+        self.logger = logging.getLogger('default')
         self.router.prefix="/binary"
         self.router.add_api_route("/submit",self.binary_search, methods=["POST"])
 
-    def serialize_json(input: Request, response):
-                body = Response
-                body.num = input.num
-                body.response = response   
-    try: 
-        async def binary_search(request: Request) -> int:
-       
-            left, right= 0, len(request.list)
-            while right > left:
+    def serialize_json(self, input: SearchRequest, response: str):
+        body = {"num": input.num, "response": response}
+        return body
+    
+    async def binary_search(self, request: SearchRequest): 
+        self.logger.debug("Binary search request received")
+        try: 
+            left, right= 0, len(request.list) -1 
+            while left <= right:
                 middle = (left + right) // 2
-                if request.list[middle] > request.num:
-                    right = middle
-                elif request.list[middle] <= request.num:
+                if request.list[middle] < request.num:
                     left = middle + 1
+                elif request.list[middle] > request.num:
+                    right = middle - 1
                 else:
-                    serialize_json(request, "Search was successful")
-                    return request
-            return None
-
-        if binary_search is not None:
-            def serialize_json(input: Request):
-                body = Response
-                body.num = input.num
-                body.response = "The search was successful"
-        else: 
-            def serialize_json(input:Request): 
-                body = Response
-                body.num = None
-                body.response = "The search was unsuccessful"
-
-    except Exception as e:
-        self.logger.error(e)
-        raise HTTPException()
+                    return self.serialize_json(request, "Search was successful")
+            return self.serialize_json(request, "Search was unsuccessful")
+        
+        except Exception as e:
+            self.logger.error(e)
+            raise HTTPException()
 
 
         

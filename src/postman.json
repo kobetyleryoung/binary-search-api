@@ -1,0 +1,37 @@
+{
+    "info": {
+        "name": "BinarySearch API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "BinarySearch",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"list\": [1, 2, 3, 4, 5], \"num\": 3}"
+                },
+                "url": {
+                    "raw": "http://localhost:8000/binary/submit",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "binary",
+                        "submit"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
