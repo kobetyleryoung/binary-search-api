@@ -1,1 +1,3 @@
 # binary-search-api
+
+This project is a binary search API that provides a simple interface for performing binary searches on a given array. It allows users to search for a specific element in a sorted array efficiently by repeatedly dividing the search space in half. The API provides a method for performing the binary search and returns the index of the found element or -1 if the element is not present in the array. This project is designed to be easy to use and can be integrated into various applications that require binary search functionality.
